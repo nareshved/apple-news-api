@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsapi/domain/utils/app_info.dart';
+import 'package:newsapi/domain/utils/app_theme.dart';
 
 import 'repository/pages/homepage.dart';
 
@@ -14,8 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
+      themeAnimationCurve: Curves.easeInCirc,
+      theme: myLightTheme,
+      darkTheme: myDarkTheme,
       title: AppDeveloperInfo.appName,
-      theme: ThemeData(),
       home: const HomePage(),
     );
   }
