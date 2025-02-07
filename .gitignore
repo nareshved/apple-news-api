@@ -34,7 +34,7 @@ migrate_working_dir/
 
 
 #by me
-lib/domain/utils/urls_hide.dart
+/lib/domain/utils/urls_updated_hide.dart
 
 # Symbolication related
 app.*.symbols
