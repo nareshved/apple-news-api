@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
+       themeMode: ThemeMode.dark,
       themeAnimationCurve: Curves.easeInCirc,
       theme: myLightTheme,
       darkTheme: myDarkTheme,

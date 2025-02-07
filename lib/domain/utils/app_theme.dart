@@ -8,7 +8,9 @@ final ThemeData myLightTheme = ThemeData(
     colorScheme: const ColorScheme.light(
         brightness: Brightness.light,
         primary: AppColors.lightPrimaryColor,
-        onPrimaryContainer: AppColors.lightPrimaryContainerColor),
+        primaryContainer: AppColors.lightPrimaryContainerColor,
+        // onPrimaryContainer: AppColors.lightPrimaryContainerColor
+    ),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         fontFamily: "poppins",
