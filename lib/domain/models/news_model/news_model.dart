@@ -41,12 +41,13 @@ class ArticleModel {
       required this.urlToImage});
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
+
     return ArticleModel(
         author: json["author"],
         content: json["content"],
         description: json["description"],
         publishedAt: json["publishedAt"],
-        source: json["source"],
+        source: SourceModel.fromJson(json["source"]),
         title: json["title"],
         url: json["url"],
         urlToImage: json["urlToImage"]);
