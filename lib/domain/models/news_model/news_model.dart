@@ -1,3 +1,4 @@
+
 class NewsModel {
   String? status;
   num? totalResults;

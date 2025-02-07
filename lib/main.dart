@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:newsapi/data/api_bloc/news_bloc.dart';
+import 'package:newsapi/data/api_helper/api_helper.dart';
 import 'package:newsapi/domain/utils/app_info.dart';
 import 'package:newsapi/domain/utils/app_theme.dart';
 
 import 'repository/pages/homepage.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+        create: (context) => NewsBloc(apiHelper: ApiHelper())),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
