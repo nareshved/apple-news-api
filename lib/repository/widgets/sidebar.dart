@@ -6,7 +6,8 @@ class SidebarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return       Expanded(
+  //  final isPage = MediaQuery.sizeOf(context);
+    return   Expanded(
       child: ListView(
         children: [
           Container(
@@ -24,10 +25,10 @@ class SidebarWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 11,
                 children: [
-CircleAvatar(
-  backgroundImage: NetworkImage("https://static.vecteezy.com/system/resources/previews/032/168/051/large_2x/entrepreneur-laptop-males-happy-office-happiness-technology-job-young-businessman-men-indian-smile-sitting-photo.jpg"),
-),
-                  Text("Naresh Kumar",
+      CircleAvatar(
+        backgroundImage: NetworkImage("https://static.vecteezy.com/system/resources/previews/032/168/051/large_2x/entrepreneur-laptop-males-happy-office-happiness-technology-job-young-businessman-men-indian-smile-sitting-photo.jpg"),
+      ),
+                  Text("Naresh Kumar Flutter Dev",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
@@ -35,10 +36,8 @@ CircleAvatar(
             ),
           ),
           ListTile(
-            leading: CircleAvatar(backgroundColor: Colors.teal,
-            ),
+            leading: Icon(Icons.dark_mode),
             title: Text("Dark Mode"),
-            trailing: Icon(Icons.dark_mode),
           )
         ],
       ),

@@ -1,11 +1,15 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newsapi/data/api_bloc/news_bloc.dart';
 import 'package:newsapi/data/api_bloc/news_events.dart';
 import 'package:newsapi/data/api_bloc/news_states.dart';
 import 'package:newsapi/domain/utils/app_info.dart';
+import 'package:newsapi/repository/pages/details_page.dart';
+import 'package:newsapi/repository/widgets/responsive.dart';
 import 'package:newsapi/repository/widgets/sidebar.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,7 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final isPage = MediaQuery.sizeOf(context);
+   //  final isPage = MediaQuery.sizeOf(context);
+    final isResponsive = ResponsiveApp.isDesktop(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -38,38 +43,79 @@ class _HomePageState extends State<HomePage> {
         body: Row(
           children: [
             SidebarWidget(),
-           Expanded(
-             flex: 4,
-               child: BlocBuilder<NewsBloc, NewsStates>(
-                 builder: (context, state) {
+           BlocBuilder<NewsBloc, NewsStates>(
+             builder: (context, state) {
 
-                   if(state is NewsLoadingState){
-                     return Center(child: CircularProgressIndicator());
-                   }
+               if(state is NewsLoadingState){
+                 return Center(child: CircularProgressIndicator());
+               }
 
-                   if(state is NewsErrorState) {
-                     log("ye hai ${state.errorMsg}");
-                     return Center(child: Text(state.errorMsg));
-                   }
+               if(state is NewsErrorState) {
+                 log("ye hai ${state.errorMsg}");
+                 return Center(child: Text(state.errorMsg));
+               }
 
-                   if(state is NewsLoadedState) {
-                     var newsData = state.mData.articles!;
-                     return ListView.builder(
-                       itemCount: state.mData.articles!.length,
-                       itemBuilder: (context, index) {
-                       return ListTile(
-                         title: Text(newsData[index].title!),
-                         subtitle: Text(newsData[index].description!),
-                       );
-                     },);
-                   }
+               if(state is NewsLoadedState) {
+                 return Expanded(
+                   flex: 3,
+                   child: GridView.builder(
+                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                       childAspectRatio: isResponsive ? 2/2 : 2/2.9,
+                         crossAxisCount: 2),
+                     itemCount: state.mData.articles!.length,
+                     itemBuilder: (context, index) {
+                       var newsData = state.mData.articles![index];
+                     return Container(
+                       margin: EdgeInsets.all(13),
+                       decoration: BoxDecoration(
+                         color: Theme.of(context).colorScheme.primaryContainer,
+                         borderRadius : BorderRadius.circular(12),
+                       ),
+                       child: Padding(
+                         padding: const EdgeInsets.all(12.0),
+                         child: Column(
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                           ClipRRect(
+                               borderRadius : BorderRadius.circular(12),
+                               child: CachedNetworkImage(
+                                 placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                 errorWidget: (context, url, error) => Image.asset("assets/images/apple.png",),
+                              //   width: isPage.width*0.5,
+                                 imageUrl: newsData.urlToImage!= null ? newsData.urlToImage! : "wait",
+                                 scale: 1.0, fit: BoxFit.cover,
+                               )),
+                             FittedBox(
+                               child: Text("PublishedAt : ${newsData.publishedAt!}",
+                                 style: isResponsive ? Theme.of(context).textTheme.titleMedium : Theme.of(context).textTheme.bodyMedium,
+                               
+                               ),
+                             ),
+                             FittedBox(
+                               child: Text(newsData.title!, overflow: isResponsive ? TextOverflow.ellipsis : TextOverflow.fade,
+                               style: isResponsive ? Theme.of(context).textTheme.titleMedium : Theme.of(context).textTheme.bodyMedium,
+                               ),
+                             ),
+                             ElevatedButton(onPressed: () =>
+                                 Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(articleModel: newsData, articleUrl: newsData.url!,),)),
+                                 child: Text("Read More...")),
+                           ],
+                         ),
+                       ),
+                     );
+                   },),
+                 );
+               }
 
-                   return Container(child: Text("naresh"),); // lottie no data
-               },),
-
-           ),
+               return Lottie.asset(
+                   "assets/images/lottie/no_result.json",
+                   alignment: Alignment.center,
+                   width: 80, height: 80); // lottie no data
+           },),
           ],
         ),
+
       ),
     );
   }

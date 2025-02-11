@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:newsapi/domain/models/news_model/news_model.dart';
+
+import '../../domain/models/news_model/news_model.dart';
 
 class ApiHelper {
 
-  Future getApi ({required String apiUrl}) async {
+   getApi ({required String apiUrl}) async {
    var uri  = Uri.parse(apiUrl);
     try{
 
@@ -14,7 +15,7 @@ class ApiHelper {
       //   "apiKey" : ApiUrls.adminApiKey,
       // }
       );
-   
+
    if(response.statusCode==200){
     var rawData = jsonDecode(response.body);
     var mData = NewsModel.fromJson(rawData);

@@ -1,4 +1,5 @@
 
+
 class NewsModel {
   String? status;
   num? totalResults;
@@ -10,17 +11,17 @@ class NewsModel {
       required this.totalResults});
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
-    List<ArticleModel> articles = [];
+    List<ArticleModel> allArticles = [];
 
     for (Map<String, dynamic> eachMap in json["articles"]) {
       var eachMapArticle = ArticleModel.fromJson(eachMap);
-      articles.add(eachMapArticle);
+      allArticles.add(eachMapArticle);
     }
 
     return NewsModel(
       status: json["status"],
       totalResults: json["totalResults"],
-      articles: articles,
+      articles: allArticles,
     );
   }
 }

@@ -1,4 +1,6 @@
-import 'package:newsapi/domain/models/news_model/news_model.dart';
+
+
+import '../../domain/models/news_model/news_model.dart';
 
 abstract class NewsStates {}
 
